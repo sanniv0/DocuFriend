@@ -1,0 +1,864 @@
+/* DocuFriend Hand-Drawn & Dynamic Design System */
+
+:root {
+  --font-scale: 1;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-hand: 'Caveat', cursive;
+  --font-marker: 'Architects Daughter', 'Patrick Hand', cursive;
+
+  /* Sketchbook / Warm Craft Paper Palette */
+  --bg-primary: #F9F7F1;
+  --bg-secondary: #F3EFE4;
+  --bg-card: #FFFFFF;
+  --bg-card-subtle: #FDFBF7;
+  --bg-hover: #F2ECE0;
+
+  /* Organic Ink Borders */
+  --ink-primary: #1E293B;
+  --ink-secondary: #475569;
+  --ink-muted: #64748B;
+  --ink-border: #2D3748;
+
+  /* Playful Highlighter Colors */
+  --highlighter-yellow: #FEF08A;
+  --highlighter-green: #BBF7D0;
+  --highlighter-orange: #FED7AA;
+  --highlighter-rose: #FECDD3;
+  --highlighter-blue: #BAE6FD;
+  --highlighter-purple: #E9D5FF;
+
+  /* Hand-Drawn Healthcare Accents */
+  --sketch-teal: #0D9488;
+  --sketch-coral: #E11D48;
+  --sketch-amber: #D97706;
+  --sketch-green: #16A34A;
+  --sketch-blue: #2563EB;
+
+  /* Tactile Sketchbook Shadows */
+  --shadow-sketch-sm: 2px 3px 0px rgba(30, 41, 59, 0.9);
+  --shadow-sketch-md: 4px 5px 0px rgba(30, 41, 59, 0.9);
+  --shadow-sketch-lg: 6px 8px 0px rgba(30, 41, 59, 0.9);
+  --shadow-sketch-hover: 6px 7px 0px rgba(30, 41, 59, 1);
+  --shadow-tape: 0 1px 3px rgba(0,0,0,0.12);
+
+  /* Organic Wobbly Border Radii */
+  --wobble-card: 255px 15px 225px 15px/15px 225px 15px 255px;
+  --wobble-btn: 255px 25px 225px 25px/25px 225px 25px 255px;
+  --wobble-pill: 20px 255px 20px 255px/255px 20px 255px 20px;
+  --wobble-tag: 12px 180px 14px 180px/180px 14px 180px 14px;
+}
+
+/* Night Sketch Mode */
+[data-theme='night-care'] {
+  --bg-primary: #13171A;
+  --bg-secondary: #1C2226;
+  --bg-card: #20272C;
+  --bg-card-subtle: #262E34;
+  --bg-hover: #2C353C;
+
+  --ink-primary: #F1F5F9;
+  --ink-secondary: #CBD5E1;
+  --ink-muted: #94A3B8;
+  --ink-border: #94A3B8;
+
+  --highlighter-yellow: #4D4412;
+  --highlighter-green: #143D24;
+  --highlighter-orange: #452410;
+  --highlighter-rose: #4A1924;
+  --highlighter-blue: #16364D;
+
+  --shadow-sketch-sm: 2px 3px 0px rgba(0, 0, 0, 0.7);
+  --shadow-sketch-md: 4px 5px 0px rgba(0, 0, 0, 0.8);
+  --shadow-sketch-lg: 6px 8px 0px rgba(0, 0, 0, 0.9);
+}
+
+/* Base Reset & Notebook Grid Background */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(rgba(30, 41, 59, 0.06) 1.5px, transparent 1.5px),
+    radial-gradient(rgba(30, 41, 59, 0.04) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+  color: var(--ink-primary);
+  line-height: 1.6;
+  font-size: calc(16px * var(--font-scale));
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--ink-primary);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.hand-note {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  line-height: 1.25;
+  color: var(--sketch-coral);
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+
+.marker-label {
+  font-family: var(--font-marker);
+  letter-spacing: 0.02em;
+}
+
+/* Washi Tape Strip Effect */
+.washi-tape {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  width: 90px;
+  height: 24px;
+  background: rgba(254, 240, 138, 0.85);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transform: rotate(-2.5deg);
+  z-index: 10;
+  border-left: 2px dashed rgba(202, 138, 4, 0.4);
+  border-right: 2px dashed rgba(202, 138, 4, 0.4);
+  pointer-events: none;
+}
+
+.washi-tape.pink {
+  background: rgba(254, 205, 211, 0.85);
+  border-color: rgba(225, 29, 72, 0.4);
+  transform: rotate(2deg);
+  left: auto;
+  right: 30px;
+}
+
+.washi-tape.blue {
+  background: rgba(186, 230, 253, 0.85);
+  border-color: rgba(37, 99, 235, 0.4);
+  transform: rotate(-1deg);
+}
+
+.washi-tape.green {
+  background: rgba(187, 247, 208, 0.85);
+  border-color: rgba(22, 163, 74, 0.4);
+  transform: rotate(1.5deg);
+}
+
+/* App Container */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Top Navigation Header */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(249, 247, 241, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 2.5px solid var(--ink-border);
+  padding: 0.75rem 1.5rem;
+}
+
+[data-theme='night-care'] .top-nav {
+  background: rgba(19, 23, 26, 0.94);
+}
+
+.nav-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+}
+
+.brand-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--wobble-btn);
+  background: var(--highlighter-yellow);
+  border: 2.5px solid var(--ink-border);
+  box-shadow: var(--shadow-sketch-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-primary);
+  transform: rotate(-2deg);
+  transition: transform 0.2s ease;
+}
+
+.brand-icon-wrap:hover {
+  transform: rotate(2deg) scale(1.05);
+}
+
+.brand-text h1 {
+  font-size: 1.45rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-subtitle {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--sketch-teal);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Sketch Badges */
+.sketch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--wobble-tag);
+  border: 2px solid var(--ink-border);
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.85);
+  background: var(--bg-card);
+  transition: all 0.15s ease;
+}
+
+.sketch-badge:hover {
+  transform: translateY(-1px);
+}
+
+.sketch-badge.offline {
+  background: var(--highlighter-green);
+  color: #064E3B;
+}
+
+.sketch-badge.model {
+  background: var(--highlighter-purple);
+  color: #4C1D95;
+}
+
+.sketch-badge.coral {
+  background: var(--highlighter-rose);
+  color: #881337;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  border: 1px solid var(--ink-border);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Sketch Controls & Buttons */
+.sketch-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-card);
+  border: 2px solid var(--ink-border);
+  border-radius: var(--wobble-pill);
+  padding: 4px;
+  box-shadow: 2px 3px 0px var(--ink-border);
+}
+
+.sketch-pill {
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--wobble-btn);
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  border: 1.5px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sketch-pill:hover {
+  background: var(--bg-hover);
+  border-color: var(--ink-border);
+}
+
+.sketch-pill.active {
+  background: var(--highlighter-yellow);
+  border-color: var(--ink-border);
+  box-shadow: 1px 2px 0px var(--ink-border);
+  transform: rotate(-1deg);
+}
+
+/* Hand-Drawn Action Buttons */
+.sketch-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--wobble-btn);
+  border: 2.5px solid var(--ink-border);
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-sketch-sm);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sketch-action-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-sketch-md);
+}
+
+.sketch-action-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--ink-border);
+}
+
+.sketch-action-btn.primary {
+  background: var(--sketch-teal);
+  color: white;
+}
+
+.sketch-action-btn.secondary {
+  background: var(--bg-card);
+  color: var(--ink-primary);
+}
+
+.sketch-action-btn.yellow {
+  background: var(--highlighter-yellow);
+  color: var(--ink-primary);
+}
+
+.sketch-action-btn.coral {
+  background: var(--highlighter-rose);
+  color: #9F1239;
+}
+
+/* Main Content Area */
+.main-content {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+/* Hand-Drawn Cards */
+.sketch-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-card);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sketch-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sketch-card:hover {
+  box-shadow: var(--shadow-sketch-hover);
+}
+
+/* Optimized Patient Banner Card */
+.patient-banner-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  box-shadow: var(--shadow-sketch-sm);
+  margin-bottom: 0.25rem;
+}
+
+.patient-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.patient-profile-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 300px;
+}
+
+.patient-avatar-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--wobble-btn);
+  background: var(--highlighter-yellow);
+  border: 2.5px solid var(--ink-border);
+  box-shadow: 2px 3px 0px var(--ink-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+  flex-shrink: 0;
+  transform: rotate(-2deg);
+}
+
+.patient-info-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.patient-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.patient-name-heading {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--ink-primary);
+  letter-spacing: -0.01em;
+}
+
+.patient-meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.sketch-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--wobble-pill);
+  border: 1.5px solid var(--ink-border);
+  background: var(--bg-primary);
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+
+.sketch-meta-chip strong {
+  color: var(--ink-primary);
+}
+
+/* Privacy Vault Badge Box */
+.patient-privacy-badge-box {
+  background: var(--highlighter-green);
+  border: 2px solid #16A34A;
+  border-radius: var(--wobble-card);
+  padding: 0.75rem 1rem;
+  box-shadow: 2px 3px 0px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-width: 380px;
+}
+
+[data-theme='night-care'] .patient-privacy-badge-box {
+  background: #153822;
+  border-color: #22C55E;
+}
+
+.privacy-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.privacy-shield-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #DCFCE7;
+  border: 1.5px solid #16A34A;
+  color: #15803D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+[data-theme='night-care'] .privacy-shield-icon {
+  background: #052E16;
+  color: #4ADE80;
+  border-color: #22C55E;
+}
+
+.privacy-badge-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #14532D;
+}
+
+[data-theme='night-care'] .privacy-badge-title {
+  color: #86EFAC;
+}
+
+.privacy-badge-subtitle {
+  font-size: 0.75rem;
+  color: #166534;
+}
+
+[data-theme='night-care'] .privacy-badge-subtitle {
+  color: #BBF7D0;
+}
+
+.privacy-badge-note {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  color: #166534;
+  font-style: italic;
+  padding-top: 0.25rem;
+  border-top: 1px dashed rgba(22, 163, 74, 0.4);
+}
+
+[data-theme='night-care'] .privacy-badge-note {
+  color: #86EFAC;
+  border-top-color: rgba(74, 222, 128, 0.3);
+}
+
+
+.sketch-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px dashed var(--ink-border);
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.sketch-card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Ribbon / Tab Switcher */
+.sketch-tab-ribbon {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.sketch-patient-tab {
+  position: relative;
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-card);
+  padding: 0.85rem 1.25rem;
+  min-width: 250px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sketch-sm);
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sketch-patient-tab:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-sketch-md);
+}
+
+.sketch-patient-tab.active {
+  background: var(--highlighter-yellow);
+  box-shadow: var(--shadow-sketch-md);
+  transform: rotate(-0.5deg) scale(1.02);
+}
+
+[data-theme='night-care'] .sketch-patient-tab.active {
+  background: #3B3312;
+  border-color: #FCD34D;
+}
+
+/* Dynamic Feature Navigation Tabs */
+.sketch-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  border-bottom: 2.5px solid var(--ink-border);
+  scrollbar-width: none;
+}
+
+.sketch-nav-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--wobble-btn);
+  border: 2px solid var(--ink-border);
+  font-size: 0.95rem;
+  font-weight: 800;
+  background: var(--bg-card);
+  color: var(--ink-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sketch-sm);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sketch-nav-tab-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sketch-md);
+}
+
+.sketch-nav-tab-btn.active {
+  background: var(--sketch-teal);
+  color: white;
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: var(--shadow-sketch-md);
+}
+
+/* User-Oriented Interactive Tools Bar */
+.user-tools-banner {
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-card);
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: var(--shadow-sketch-sm);
+  flex-wrap: wrap;
+}
+
+/* Post-It Sticky Notes */
+.postit-note {
+  position: relative;
+  background: #FEF08A;
+  color: #1E293B;
+  border: 2px solid #CA8A04;
+  border-radius: 4px;
+  padding: 1.25rem;
+  box-shadow: 4px 6px 0px rgba(0,0,0,0.15);
+  transform: rotate(-1.5deg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.postit-note.coral {
+  background: #FECDD3;
+  border-color: #E11D48;
+  transform: rotate(1.2deg);
+}
+
+.postit-note.blue {
+  background: #BAE6FD;
+  border-color: #0284C7;
+  transform: rotate(-0.8deg);
+}
+
+.postit-note.green {
+  background: #BBF7D0;
+  border-color: #16A34A;
+  transform: rotate(1.8deg);
+}
+
+.pushpin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #DC2626;
+  border: 2px solid #7F1D1D;
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Interactive Pill Cards */
+.sketch-pill-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-card);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sketch-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.sketch-pill-card:hover {
+  transform: translate(-2px, -3px);
+  box-shadow: var(--shadow-sketch-md);
+}
+
+.sketch-pill-card.taken {
+  opacity: 0.6;
+  background: var(--bg-secondary);
+  text-decoration: line-through;
+}
+
+/* Hand-Drawn Checkbox */
+.sketch-checkbox {
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid var(--ink-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--ink-border);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.sketch-checkbox:hover {
+  transform: scale(1.08);
+}
+
+.sketch-checkbox.checked {
+  background: var(--highlighter-green);
+  color: var(--ink-primary);
+}
+
+/* Audio Narrator Bar */
+.sketch-audio-bar {
+  background: var(--highlighter-yellow);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-pill);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sketch-sm);
+  color: var(--ink-primary);
+}
+
+/* Interactive Jargon Buster Box */
+.jargon-buster-container {
+  background: var(--bg-card);
+  border: 2.5px solid var(--ink-border);
+  border-radius: var(--wobble-card);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sketch-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.jargon-input {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  border-radius: var(--wobble-btn);
+  border: 2px solid var(--ink-border);
+  background: var(--bg-primary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+  outline: none;
+  box-shadow: inset 1px 2px 4px rgba(0,0,0,0.05);
+}
+
+.jargon-input:focus {
+  border-color: var(--sketch-teal);
+  box-shadow: 0 0 0 3px var(--highlighter-yellow);
+}
+
+/* Refrigerator Fridge Magnet Sheet */
+.fridge-sheet-paper {
+  background: #FFFDF8;
+  border: 3.5px solid #1E293B;
+  border-radius: 18px 255px 16px 245px/255px 16px 245px 18px;
+  padding: 2.25rem;
+  box-shadow: 8px 12px 0px #1E293B;
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  color: #1E293B;
+}
+
+.fridge-magnet {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid #1E293B;
+  box-shadow: 2px 3px 0px rgba(0,0,0,0.5);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.fridge-magnet.top-left { top: -14px; left: 24px; background: #EF4444; }
+.fridge-magnet.top-right { top: -14px; right: 24px; background: #3B82F6; }
+.fridge-magnet.bottom-left { bottom: -14px; left: 24px; background: #10B981; }
+.fridge-magnet.bottom-right { bottom: -14px; right: 24px; background: #F59E0B; }
+
+/* Dynamic Animations */
+@keyframes scribble {
+  0% { transform: rotate(-0.5deg); }
+  50% { transform: rotate(0.5deg); }
+  100% { transform: rotate(-0.5deg); }
+}
+
+.animate-scribble:hover {
+  animation: scribble 0.3s ease infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media print {
+  body {
+    background: white !important;
+    background-image: none !important;
+  }
+  .top-nav, .sketch-nav-tabs, .user-tools-banner, .no-print {
+    display: none !important;
+  }
+}
